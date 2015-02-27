@@ -1,61 +1,20 @@
-var Router = require("node-simple-router");
-var http = require("http");
-var sessionStore = require("./lib/session-store");
-var handleAuthenticate = require("./lib/handle-authenticate");
-var hasAuthenticated = require("./lib/has-authenticated");
-var studentInfo = require("./lib/student-info");
-var studentTakenLessons = require("./lib/student-taken-lessons");
+var studentTakenLessons = require("./services/student-taken-lessons");
+var authenticate = require("./services/authenticate");
+var studentInfo = require("./services/student-info");
 
-var router = new Router();
+var allowCrossDomain = require("./lib/allow-cross-domain");
+var express = require("express");
+var bodyParser = require("body-parser");
 
-router.post('/authenticate', function (req, res) {
-    handleAuthenticate(sessionStore, req, res);
-});
+var app = express();
 
-router.get('/student-info', function (req, res) {
+app.use(allowCrossDomain);
+app.use(bodyParser.urlencoded({ extended: true }));
 
-    var authKey = req.body.authKey;
+app.post('/authenticate', authenticate);
+app.get('/student-info', studentInfo);
+app.get('/student-taken-lessons', studentTakenLessons);
 
-    hasAuthenticated(sessionStore, authKey, function (err) {
-        if (err) {
-            res.end(JSON.stringify(err));
-        } else {
-            var jar = sessionStore.getJar(authKey);
-
-            studentInfo(jar, function (err, student) {
-                if (err) {
-                    res.end(JSON.stringify(err));
-                } else {
-                    res.end(JSON.stringify(student));
-                }
-            });
-        }
-    });
-});
-
-router.get('/student-taken-lessons', function (req, res) {
-
-    var authKey = req.body.authKey;
-
-    hasAuthenticated(sessionStore, authKey, function (err) {
-        if (err) {
-            res.end(JSON.stringify(err));
-        } else {
-            var jar = sessionStore.getJar(authKey);
-
-            studentTakenLessons(jar, function (err, lessons) {
-                if (err) {
-                    res.end(JSON.stringify(err));
-                } else {
-                    res.end(JSON.stringify(lessons));
-                }
-            });
-        }
-    });
-});
-
-var server = http.createServer(router);
-
-server.listen(3000, function () {
+app.listen(3000, function () {
     console.log("Server running on port:", 3000);
 });
