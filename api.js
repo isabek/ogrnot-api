@@ -1,3 +1,5 @@
+"use strict";
+
 var studentTakenLessons = require("./services/student-taken-lessons");
 var authenticate = require("./services/authenticate");
 var studentInfo = require("./services/student-info");

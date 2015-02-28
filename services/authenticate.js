@@ -1,3 +1,4 @@
+"use strict";
 var sessionStore = require("../lib/session-store");
 var handleAuthenticate = require("../lib/handle-authenticate");
 

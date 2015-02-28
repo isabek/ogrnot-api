@@ -1,3 +1,5 @@
+"use strict";
+
 var sessionStore = require("../lib/session-store");
 var hasAuthenticated = require("../lib/has-authenticated");
 var studentTakenLessons = require("../lib/student-taken-lessons");
