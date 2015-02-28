@@ -3,6 +3,7 @@
 var studentTakenLessons = require("./services/student-taken-lessons");
 var authenticate = require("./services/authenticate");
 var studentInfo = require("./services/student-info");
+var changePassword = require("./services/change-password");
 
 var allowCrossDomain = require("./lib/allow-cross-domain");
 var express = require("express");
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.post('/authenticate', authenticate);
 app.get('/student-info', studentInfo);
 app.get('/student-taken-lessons', studentTakenLessons);
+app.put('/change-password', changePassword);
 
 app.listen(3000, function () {
     console.log("Server running on port:", 3000);
