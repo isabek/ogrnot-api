@@ -14,7 +14,7 @@ var bodyParser = require("body-parser");
 var app = express();
 
 app.use(allowCrossDomain);
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.post('/authenticate', authenticate);
 app.get('/main-info', mainInfo);
@@ -23,6 +23,6 @@ app.get('/student-taken-lessons', studentTakenLessons);
 app.get('/student-transcript', studentTranscript);
 app.put('/change-password', changePassword);
 
-app.listen(3000, function () {
-    console.log("Server running on port:", 3000);
-});
+module.exports = {
+    app: app
+};
