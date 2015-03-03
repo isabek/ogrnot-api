@@ -16,12 +16,12 @@ var app = express();
 app.use(allowCrossDomain);
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/authenticate', authenticate);
-app.get('/main-info', mainInfo);
-app.get('/student-info', studentInfo);
-app.get('/student-taken-lessons', studentTakenLessons);
-app.get('/student-transcript', studentTranscript);
-app.put('/change-password', changePassword);
+app.post('/api/v1/authenticate', authenticate);
+app.get('/api/v1/main-info', mainInfo);
+app.get('/api/v1/student-info', studentInfo);
+app.get('/api/v1/student-taken-lessons', studentTakenLessons);
+app.get('/api/v1/student-transcript', studentTranscript);
+app.put('/api/v1/change-password', changePassword);
 
 module.exports = {
     app: app
