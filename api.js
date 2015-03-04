@@ -26,3 +26,4 @@ app.put('/api/v1/change-password', changePassword);
 module.exports = {
     app: app
 };
+

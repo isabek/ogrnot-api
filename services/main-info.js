@@ -1,5 +1,7 @@
 "use strict";
 
+var httpStatus = require("http-status");
+
 var sessionStore = require("../lib/session-store");
 var hasAuthenticated = require("../lib/has-authenticated");
 var mainInfo = require("../lib/main-info");
@@ -9,15 +11,21 @@ function mainInfoService(req, res) {
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {
-            res.end(JSON.stringify(err));
+            res
+                .status(err.code)
+                .json(err);
         } else {
             var jar = sessionStore.getJar(authKey);
 
             mainInfo(jar, function (err, mainInfo) {
                 if (err) {
-                    res.end(JSON.stringify(err));
+                    res
+                        .status(err.code)
+                        .json(err);
                 } else {
-                    res.end(JSON.stringify(mainInfo));
+                    res
+                        .status(httpStatus.OK)
+                        .json(mainInfo);
                 }
             });
         }

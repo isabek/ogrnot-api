@@ -1,5 +1,7 @@
 "use strict";
 
+var httpStatus = require("http-status");
+
 var sessionStore = require("../lib/session-store");
 var hasAuthenticated = require("../lib/has-authenticated");
 var studentTranscript = require("../lib/student-transcript");
@@ -9,15 +11,21 @@ function studentTranscriptService(req, res) {
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {
-            res.end(JSON.stringify(err));
+            res
+                .status(err.code)
+                .json(err);
         } else {
             var jar = sessionStore.getJar(authKey);
 
             studentTranscript(jar, function (err, transcript) {
                 if (err) {
-                    res.end(JSON.stringify(err));
+                    res
+                        .status(err.code)
+                        .json(err);
                 } else {
-                    res.end(JSON.stringify(transcript));
+                    res
+                        .status(httpStatus.OK)
+                        .json(transcript);
                 }
             });
         }

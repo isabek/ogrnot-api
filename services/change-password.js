@@ -1,5 +1,7 @@
 "use strict";
 
+var httpStatus = require("http-status");
+
 var sessionStore = require("../lib/session-store");
 var hasAuthenticated = require("../lib/has-authenticated");
 var changePassword = require("../lib/change-password");
@@ -10,7 +12,9 @@ function changePasswordService(req, res) {
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {
-            res.end(JSON.stringify(err));
+            res
+                .status(err.code)
+                .json(err);
         }
         else {
 
@@ -21,12 +25,16 @@ function changePasswordService(req, res) {
 
             changePassword(currentPassword, newPassword, newPasswordRepeat, jar, function (err, response) {
                 if (err) {
-                    res.end(JSON.stringify(err));
+                    res.status(err.code).json(err);
                 } else {
                     if (response) {
-                        res.end(JSON.stringify({"code": 200, "message": "password changed successfully"}));
+                        res
+                            .status(httpStatus.OK)
+                            .json({"code": "PASSWORD_CHANGED", "message": "password changed successfully"});
                     } else {
-                        res.end(JSON.stringify({"code": 200, "message": "password did not change successfully"}));
+                        res
+                            .status(httpStatus.OK)
+                            .json({"code": "PASSWORD_NOT_CHANGED", "message": "password did not change successfully"});
                     }
                 }
             });
