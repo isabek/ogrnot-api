@@ -12,6 +12,9 @@
     "request": "^2.53.0"
   },
   "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
   "engines": {
     "node": "0.10.x"
   }
