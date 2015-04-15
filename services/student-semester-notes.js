@@ -4,6 +4,7 @@ var httpStatus = require("http-status");
 
 var sessionStore = require("../lib/session-store");
 var hasAuthenticated = require("../lib/has-authenticated");
+var studentSemesterNotes = require("../lib/student-semester-notes");
 
 function semesterNotesService(req, res) {
     var authKey = req.query.authKey;
@@ -16,7 +17,7 @@ function semesterNotesService(req, res) {
         } else {
             var jar = sessionStore.getJar(authKey);
 
-            studentInfo(jar, function (err, student) {
+            studentSemesterNotes(jar, function (err, student) {
                 if (err) {
                     res
                         .status(err.code)
