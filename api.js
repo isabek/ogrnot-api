@@ -9,15 +9,20 @@ var studentTranscript = require("./services/student-transcript");
 var semesterNotes = require("./services/student-semester-notes");
 
 var allowCrossDomain = require("./lib/allow-cross-domain");
+var checkAuthKeyHeader = require("./lib/check-app-key");
+var checkAuthRequirements = require("./lib/check-auth-requirements");
+
 var express = require("express");
 var bodyParser = require("body-parser");
 
 var app = express();
 
 app.use(allowCrossDomain);
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(checkAuthKeyHeader);
 
-app.post('/api/v1/authenticate', authenticate);
+app.use(bodyParser.json());
+
+app.post('/api/v1/authenticate', checkAuthRequirements, authenticate);
 app.get('/api/v1/main-info', mainInfo);
 app.get('/api/v1/student-info', studentInfo);
 app.get('/api/v1/student-taken-lessons', studentTakenLessons);

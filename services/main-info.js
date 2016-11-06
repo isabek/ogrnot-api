@@ -7,7 +7,7 @@ var hasAuthenticated = require("../lib/has-authenticated");
 var mainInfo = require("../lib/main-info");
 
 function mainInfoService(req, res) {
-    var authKey = req.query.authKey;
+    var authKey = req.header("authorization");
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {

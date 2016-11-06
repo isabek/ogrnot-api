@@ -7,7 +7,7 @@ var hasAuthenticated = require("../lib/has-authenticated");
 var studentSemesterNotes = require("../lib/student-semester-notes");
 
 function semesterNotesService(req, res) {
-    var authKey = req.query.authKey;
+    var authKey = req.header("authorization");
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {

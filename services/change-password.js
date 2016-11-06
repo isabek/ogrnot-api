@@ -8,7 +8,7 @@ var changePassword = require("../lib/change-password");
 
 
 function changePasswordService(req, res) {
-    var authKey = req.body.authKey;
+    var authKey = req.header("authorization");
 
     hasAuthenticated(sessionStore, authKey, function (err) {
         if (err) {
